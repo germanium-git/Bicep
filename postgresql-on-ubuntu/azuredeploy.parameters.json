@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "adminUsername": {
+        "value": "azuser"
+      },
+      "dnsNamePrefix": {
+        "value": "postgresql"
+      },
+      "adminPasswordOrKey": {
+        "value": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCwldH52ocBTrR2Ys7oPocM1aJfvhyNHhPCZZOndhm+9laW8MNRAIIMz8Bvur7JWdKxaq3U27dNo2LUILNlWrpbkogOeOThGu20KIHBjVU3Ctqw3PpQWMHbN2tXWfCBM799fsQCowFiRBk8FtHJ/L3/UEqvLjIwjTC2vTQIcGn3veo91XDpvRcSz8oavj0NvGBOU1z0GOfulLAUZtQ4wIx5u9EGyRS4ccNDjkgUseRMvPZqKWOVvEwTwV8wdykIOewdY+AmCQnY2pnC+5EeLD82j5npDi0URo5eXplEaAkSHBObvzFRxXAM0Qmf6WAUiUVyP9Gc89xplVcu+saNIc3ToUFhHrsVtVCwCrPmJ/U++ibmxzlxHpWAD/4D5NIuovvAVjuSKDf/7AWGiuBk6TQ5oGTlHKMN0S+cuwynDIBa/uMV6xr998MwMRfXhn5vGhi/+3ea5AAKTW0CPuNyHKuX1QiC5jMaP0SIxbwch7m9MGdkBGoyjw4A6ZIb6sceOsDDgqyIrvEWQ5HhUgtakpjBoba0MP/rScu+6k8yda5c01dnBanU7onGXvNIiYcgT0FuYj/mj64EW+u1ZI4ZqEfpG1jYtE91E3hgymaoKIf/dc10TxHj4OmT7Tp9VzWqLpw9d3yxPXwGYmOuJuCMRHUmjL4Q0g1mzBBZ/O1Se9fVww== postgresql"
+      }
+    }
+  }
