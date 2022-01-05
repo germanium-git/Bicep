@@ -6,16 +6,23 @@ First create a key vault and then in the second run create the storage account w
 ## Create Key Vault
 
 ```shell
-az deployment group create --name KeyVault --resource-group rg-nemedpet-kvstorage --template-file keyvault.bicep  --parameters keyvault.parameters.json
+az deployment group create --name KeyVault `
+ --resource-group rg-nemedpet-kvstorage `
+ --template-file keyvault.bicep `
+ --parameters keyvault.parameters.json
 ```
 
 ## Create Storage account
 
 ```shell
-az deployment group create --name StorageAccount --resource-group rg-nemedpet-kvstorage --template-file storageaccount.bicep  --parameters storageaccount.parameters.json
+az deployment group create --name StorageAccount `
+ --resource-group rg-nemedpet-kvstorage `
+ --template-file storageaccount.bicep `
+ --parameters storageaccount.parameters.json
 ```
 
-At the end the access key *key1* 
+At the end the access key *key1*  
+
 <img src="pictures/storagekey.png" width="600">
 
 should be stored in the key vault.
