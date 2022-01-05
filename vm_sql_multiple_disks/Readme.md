@@ -4,6 +4,7 @@
 
 The template may be used for creating a virtual machine with multiple data disks. VM can have zero or several data disks. Each disk have their options (size, SKU etc.) and when you attach them you may also specify caching.
 In this template as part of the virtual machine deployment three types of data disks are created:
+
 - data disks
 - log disks
 - additional disks
@@ -17,7 +18,7 @@ The virtual machine created by the template is supposed to be placed into a prox
 The template can use the virtual network and subnet from different resource group.
 If this is needed than add the following parameter into parameters. By default it takes the name of the RG where the resources are created.
 
-```
+```shell
     "networkRg": {
         "value": "mynetwork-rg"
     },
