@@ -1,0 +1,24 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "diagnosticsStorageAccountName": {
+            "value": "abcditsa0001"
+        },
+        "vmName" : {
+            "value": "mysqlvm001"
+        },
+        "storageAccountConnectionString": {
+            "reference": {
+                "keyVault": {
+                    "id": "/subscriptions/3a60e7b7-ac49-45d8-8a8f-ba61cdc5dc1f/resourceGroups/rg-nemedpet-kvstorage/providers/Microsoft.KeyVault/vaults/ABCD-it-kv0001"
+                },
+                "secretName": "key-abcditsa0001",
+                "secretVersion": "10d5439e3ffa43b58fe323dc26afeb49"
+            }
+        },
+        "diagnosticsStorageAccountEndPoint": {
+            "value": "https://abcditsa0001.blob.core.windows.net/"
+        }
+    }
+}
