@@ -1,0 +1,96 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "vmName": {
+      "value": "mysqlvm001"
+    },
+    "avSetName": {
+      "value": "avset1"
+    },
+    "faultDomainCount": {
+      "value": 3
+    },
+    "updateDomainCount": {
+      "value": 3
+    },
+    "createAvailabilitySet": {
+      "value": "Yes"
+    },
+    "ppgName":{
+      "value": "ppg1"
+    },
+    "createPpg":{
+      "value": "Yes"
+    },
+    "adminUsername": {
+      "value": "vmadmin"
+    },
+    "networkRg": {
+      "value": "rg-nemedpet-kvstorage"
+    },
+    "vnetName": {
+      "value": "my-test-vnet"
+    },
+    "subnetName": {
+      "value": "default"
+    },
+    "privateIp": {
+      "value": "dhcp"
+    },
+    "enableAcceleratedNetworking": {
+      "value": "Yes"
+    },
+    "winVersion": {
+      "value": "Windows Server 2019 Datacenter"
+    },
+    "vmSize": {
+      "value": "Standard_DS3_v2"
+    },
+    "useAHB": {
+      "value": "No"
+    },
+    "timeZone": {
+      "value": "(UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna"
+    },
+    "osDiskSuffix": {
+      "value": "OsDisk"
+    },
+    "AdditionalDiskSuffix": {
+      "value": "DataDisk"
+    },
+    "osDiskStorageSku": {
+      "value": "Premium_LRS"
+    },
+    "dataDiskStorageSku": {
+      "value": "Premium_LRS"
+    },
+    "NoOfDataDisks": {
+      "value": 5
+    },
+    "dataDisksSize": {
+      "value": 2048
+    },
+    "NoOfLogDisks": {
+      "value": 3
+    },
+    "logDisksSize": {
+      "value": 1023
+    },
+    "logDiskStorageSku": {
+      "value": "Premium_LRS"
+    },
+    "NoOfAdditionalDisks": {
+      "value": 1
+    },
+    "additionalDisksSize": {
+      "value": 16
+    },
+    "additionalDiskStorageSku": {
+      "value": "Premium_LRS"
+    },
+    "EnableSqlIaasExtension": {
+      "value": "Yes"
+    }
+  }
+}
