@@ -1,4 +1,4 @@
-# Postgresql on Ubuntu
+# PostgreSQL on Ubuntu
 
 ## Description
 
@@ -25,10 +25,10 @@ New-AzResourceGroup -Name nemedpet-postregsql -Location WestEurope
 ```
 
 Proceed with the deployment from PowerShell.
+
 ```powershell
 $date = Get-Date -Format "MM-dd-yyyy"
 $deploymentName = "nemedpet-postgresql-bicep"+"$date"
-
 
 New-AzResourceGroupDeployment -Name $deploymentName -ResourceGroupName nemedpet-postregsql -TemplateFile .\main.bicep -TemplateParameterFile .\azuredeploy.parameters.json -Confirm
 ```
