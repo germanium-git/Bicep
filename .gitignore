@@ -1,1 +1,3 @@
 .vscode
+/diagnostic_settings/.vscode
+/postgresql-on-ubuntu/.vscode
