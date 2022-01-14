@@ -23,7 +23,7 @@ The provisioning by bicep template refers to various parameters listed in the ta
 | vmSize | string | VM Size | Standard_DS3_v2 |
 | useAHB | string | Use Azure Hybrid Benefit | Yes/No |
 | timeZone | string Time Zone | (UTC+01:00) Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna |
-| osDiskSuffix | string | Suffix to append to VM name to create os disk name | OsDisk | 
+| osDiskSuffix | string | Suffix to append to VM name to create os disk name | OsDisk |
 | AdditionalDiskSuffix | string | Suffix to append to VM name to create data disk name | DataDisk |
 | osDiskStorageSku | string | Os disk SKU | Premium_LRS |
 | dataDiskStorageSku | string | Data disk SKU | Premium_LRS |

@@ -11,7 +11,8 @@ In this template as part of the virtual machine deployment three types of data d
 
 Each type is represented with the parameters specifying number of disks, SKU, size and caching.
 
-The virtual machine created by the template is supposed to be placed into a proximity placement group in an availability set that also may be created by template. Whether or not the availability set and proximity placement groups are created depends on the parameters createAvailabilitySet and createPpg. In such a way multiple VMs can be created while being put into the same proximity group and which can be further on used for forming clusters.
+The virtual machine created by the template is supposed to be placed into an availability zone or proximity placement group in an availability set that also may be created by template.
+Whether to create VM in an availability zone or availability set with  proximity placement groups depends on the parameters azDeployment, createAvailabilitySet, and createPpg. By setting right parameters multiple VMs can be created while being put into the same proximity group or different AZ which can be further on used for forming clusters.
 
 ## Notice
 
