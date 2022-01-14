@@ -5,6 +5,9 @@
     "vmName": {
       "value": "mysqlvm001"
     },
+    "azDeployment": {
+      "value": true
+    },
     "avSetName": {
       "value": "avset1"
     },
@@ -15,19 +18,22 @@
       "value": 3
     },
     "createAvailabilitySet": {
-      "value": "Yes"
+      "value": "No"
     },
     "ppgName":{
       "value": "ppg1"
     },
     "createPpg":{
-      "value": "Yes"
+      "value": "No"
+    },
+    "avZone": {
+      "value": "2"
     },
     "adminUsername": {
       "value": "vmadmin"
     },
     "networkRg": {
-      "value": "rg-nemedpet-kvstorage"
+      "value": "rg-nemedpet-vm-multiple-disk-1"
     },
     "vnetName": {
       "value": "my-test-vnet"
@@ -65,6 +71,12 @@
     "dataDiskStorageSku": {
       "value": "Premium_LRS"
     },
+    "logDiskStorageSku": {
+      "value": "Premium_LRS"
+    },
+    "additionalDiskStorageSku": {
+      "value": "Premium_LRS"
+    },
     "NoOfDataDisks": {
       "value": 5
     },
@@ -75,19 +87,13 @@
       "value": 3
     },
     "logDisksSize": {
-      "value": 1023
-    },
-    "logDiskStorageSku": {
-      "value": "Premium_LRS"
+      "value": 1024
     },
     "NoOfAdditionalDisks": {
       "value": 1
     },
     "additionalDisksSize": {
       "value": 16
-    },
-    "additionalDiskStorageSku": {
-      "value": "Premium_LRS"
     },
     "EnableSqlIaasExtension": {
       "value": "Yes"

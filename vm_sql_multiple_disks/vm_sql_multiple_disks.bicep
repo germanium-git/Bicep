@@ -1,42 +1,52 @@
 @description('The name for the Virtual Machine')
-param vmName string
-param avSetName string
+param vmName string = 'mysqlvm002'
+
+@description('Choose the deployment into an Availability Set or an Availability Zone')
+param azDeployment bool = false
+
+param avSetName string = 'avset1'
 
 @description('Number of fault domains')
-param faultDomainCount int
+param faultDomainCount int = 3
 
 @description('Number of update domains')
-param updateDomainCount int
+param updateDomainCount int = 3
 
 @description('Choose YES if the Availability Set specified before must be created by the template; choose NO if the Availability Set already exists')
 @allowed([
   'Yes'
   'No'
 ])
-param createAvailabilitySet string = 'Yes'
-param ppgName string
+param createAvailabilitySet string = 'No'
+
+@description('Proximity placemnet group name')
+param ppgName string = 'ppg1'
 
 @description('Choose YES if the Proximity Placemnet Group specified before must be created by the template; choose NO if the PPG already exists')
 @allowed([
   'Yes'
   'No'
 ])
-param createPpg string = 'Yes'
+param createPpg string = 'No'
+
+
+@description('Availability Zone.')
+param avZone string = '2'
 
 @description('Admin username for the Virtual Machine. If a domain is specified in the appropriate parameter, this user will be used both for local admin and to join domain')
-param adminUsername string
+param adminUsername string = 'vmadmin'
 
 @description('Admin password for the Virtual Machine')
 @secure()
 param adminPassword string = newGuid()
 
-@description('Name of the resource group the vNet belongs to')
-param networkRg string
+@description('Name of the resource group the vnet belongs to')
+param networkRg string = 'rg-nemedpet-vm-multiple-disk-1'
 
 @description('The vnet you want to connect to. Leave empty to create a new ad hoc virtual network')
 @minLength(0)
 @maxLength(100)
-param vnetName string = ''
+param vnetName string = 'my-test-vnet'
 
 @description('The subnet you want to connect to')
 param subnetName string = 'default'
@@ -248,7 +258,7 @@ param logDisksSize int = 1024
 param logDiskStorageSku string = 'Premium_LRS'
 
 @description('The number of additional disks to add to the virtual machine')
-param NoOfAdditionalDisks int = 0
+param NoOfAdditionalDisks int = 1
 
 @description('The size of additional disks to add to the virtual machine')
 param additionalDisksSize int = 16
@@ -366,7 +376,7 @@ resource nicName 'Microsoft.Network/networkInterfaces@2017-09-01' = {
 resource vmName_resource 'Microsoft.Compute/virtualMachines@2020-06-01' = {
   name: vmName
   location: resourceGroup().location
-  properties: {
+  properties: !azDeployment ? {
     hardwareProfile: {
       vmSize: vmSize
     }
@@ -403,21 +413,64 @@ resource vmName_resource 'Microsoft.Compute/virtualMachines@2020-06-01' = {
         }
       ]
     }
-    availabilitySet: {
+    availabilitySet: !azDeployment ? {
       id: avSetName_resource.id
-    }
-    proximityPlacementGroup: {
+    } : {}
+    proximityPlacementGroup: !azDeployment ? {
       id: ppgName_resource.id
+    } : {}
+  } : {
+    hardwareProfile: {
+      vmSize: vmSize
+    }
+    licenseType: ((toLower(useAHB) == 'yes') ? 'Windows_Server' : 'None')
+    osProfile: {
+      computerName: vmName
+      adminUsername: adminUsername
+      adminPassword: adminPassword
+      windowsConfiguration: {
+        timeZone: TimeZoneObj[timeZone].id
+      }
+    }
+    storageProfile: {
+      imageReference: {
+        publisher: 'MicrosoftWindowsServer'
+        offer: winVersionObj[winVersion].offer
+        sku: winVersionObj[winVersion].sku
+        version: 'latest'
+      }
+      osDisk: {
+        osType: 'Windows'
+        createOption: 'FromImage'
+        name: '${vmName}-${osDiskSuffix}'
+        managedDisk: {
+          storageAccountType: osDiskStorageSku
+        }
+      }
+      dataDisks: diskattachAll
+    }
+    networkProfile: {
+      networkInterfaces: [
+        {
+          id: nicName.id
+        }
+      ]
     }
   }
   dependsOn: [
     vmName_AdditionalDiskSuffix_dataDisks_1
     vmName_AdditionalDiskSuffix_logDisks_logDiskOffset
   ]
+  zones: azDeployment ? [ 
+    avZone
+   ] : []
 }
 
 resource vmName_AdditionalDiskSuffix_dataDisks_1 'Microsoft.Compute/disks@2020-09-30' = [for i in range(0, NoOfDataDisks): if (NoOfDataDisks > 0) {
   name: '${vmName}-${AdditionalDiskSuffix}${string((i + 1))}'
+  zones: azDeployment ? [ 
+    avZone
+   ] : []
   location: resourceGroup().location
   properties: {
     diskSizeGB: dataDisksSize
@@ -432,6 +485,9 @@ resource vmName_AdditionalDiskSuffix_dataDisks_1 'Microsoft.Compute/disks@2020-0
 
 resource vmName_AdditionalDiskSuffix_logDisks_logDiskOffset 'Microsoft.Compute/disks@2020-09-30' = [for i in range(0, NoOfLogDisks): if (NoOfLogDisks > 0) {
   name: '${vmName}-${AdditionalDiskSuffix}${string((i + logDiskOffset))}'
+  zones: azDeployment ? [ 
+    avZone
+   ] : []
   location: resourceGroup().location
   properties: {
     diskSizeGB: logDisksSize
@@ -446,6 +502,9 @@ resource vmName_AdditionalDiskSuffix_logDisks_logDiskOffset 'Microsoft.Compute/d
 
 resource vmName_AdditionalDiskSuffix_additionalDisks_additonalDiskOffset 'Microsoft.Compute/disks@2020-09-30' = [for i in range(0, NoOfAdditionalDisks): if (NoOfAdditionalDisks > 0) {
   name: '${vmName}-${AdditionalDiskSuffix}${string((i + additonalDiskOffset))}'
+  zones: azDeployment ? [ 
+    avZone
+   ] : []
   location: resourceGroup().location
   properties: {
     diskSizeGB: additionalDisksSize
@@ -458,7 +517,7 @@ resource vmName_AdditionalDiskSuffix_additionalDisks_additonalDiskOffset 'Micros
   }
 }]
 
-resource avSetName_resource 'Microsoft.Compute/availabilitySets@2018-10-01' = if (toLower(createAvailabilitySet) == 'yes') {
+resource avSetName_resource 'Microsoft.Compute/availabilitySets@2018-10-01' = if (toLower(createAvailabilitySet) == 'yes' && !azDeployment) {
   name: avSetName
   location: resourceGroup().location
   sku: {
@@ -473,7 +532,7 @@ resource avSetName_resource 'Microsoft.Compute/availabilitySets@2018-10-01' = if
   }
 }
 
-resource ppgName_resource 'Microsoft.Compute/proximityPlacementGroups@2019-03-01' = if (toLower(createPpg) == 'yes') {
+resource ppgName_resource 'Microsoft.Compute/proximityPlacementGroups@2019-03-01' = if (toLower(createPpg) == 'yes' && !azDeployment) {
   name: ppgName
   location: resourceGroup().location
   properties: {

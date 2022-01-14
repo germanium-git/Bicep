@@ -26,14 +26,34 @@ If this is needed than add the following parameter into parameters. By default i
 
 ## Deploy the VM
 
-```shell
-az deployment group create --name VM --resource-group rg-nemedpet-kvstorage --template-file vm_sql_multiple_disks.bicep  --parameters vm_sql_multiple_disks_params.json
-```
-
 ## Deploy test vNet & Subnet
 
 ```shell
 az deployment group create --name vnet --resource-group rg-nemedpet-kvstorage --template-file vnet.bicep
+```
+
+Update the template parameters according to the description from [parameters.md](parameters.md).
+
+### Availability Zone
+
+In case the VM is to be deployed to an availability zone follow the example below.
+
+```shell
+az deployment group create --name VM --resource-group rg-nemedpet-vm-multiple-disk-1 --template-file vm_sql_multiple_disks.bicep  --parameters vm_sql_multiple_disks_params_az.json
+```
+
+### Availability Set & Proximity Placement Group
+
+In case the VM is to be deployed to an availability set with proximity placement group follow the example below. In this example the avset and ppg are also created as part of the resource deployment.
+
+```shell
+az deployment group create --name VM --resource-group rg-nemedpet-vm-multiple-disk-1 --template-file vm_sql_multiple_disks.bicep  --parameters vm_sql_multiple_disks_params_avsetppg1.json
+```
+
+In case of deploying a VM into an existing availability set with existing proximity placement group follow the second example below. This is supposed to be used when 2nd VM is to be created within the same avset/ppg.
+
+```shell
+az deployment group create --name VM --resource-group rg-nemedpet-vm-multiple-disk-1 --template-file vm_sql_multiple_disks.bicep  --parameters vm_sql_multiple_disks_params_avsetppg2.json
 ```
 
 ## Result
